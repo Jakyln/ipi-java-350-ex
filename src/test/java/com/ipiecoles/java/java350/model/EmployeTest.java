@@ -2,6 +2,8 @@ package com.ipiecoles.java.java350.model;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.time.LocalDate;
 
@@ -56,5 +58,28 @@ public class EmployeTest {
         //Then
         // => 0
         Assertions.assertThat(nbAnneesAnciennete).isZero();
+    }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "'T12346',0,1,1.0,1000.0",
+            "'T12346',0,1,1.0,1700.0",
+            "'T12346',0,2,1.0,2300.0"
+    })
+    public void testGetPrimeAnnuelleManagerPerformanceBasePleinTemps(
+            String matricule,
+            Integer nbAnneesAnciennete,
+            Integer performance,
+            Double tauxActivite,
+            Double prime
+    ){
+        //Given
+        Employe employe = new Employe("Doe", "John", matricule,
+                LocalDate.now().minusYears(nbAnneesAnciennete), 2500d, performance, tauxActivite);
+        //When
+        Double primeObtenue = employe.getPrimeAnnuelle();
+        //Then
+        Assertions.assertThat(primeObtenue).isEqualTo(prime);
     }
 }

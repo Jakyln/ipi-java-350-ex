@@ -112,6 +112,8 @@ case SATURDAY:var = var + 1;
         return prime * this.tempsPartiel;
     }
 
+
+
     //Augmenter salaire
     //public void augmenterSalaire(double pourcentage){}
 
