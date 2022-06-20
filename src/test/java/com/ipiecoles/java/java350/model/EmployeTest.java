@@ -63,8 +63,11 @@ public class EmployeTest {
 
     @ParameterizedTest
     @CsvSource({
+            "'M12346',0,1,1.0,1700.0",
             "'T12346',0,1,1.0,1000.0",
-            "'T12346',0,2,1.0,2300.0"
+            "'T12346',0,2,1.0,2300.0",
+            ",0,1,1.0,1000.0",
+            "'T12346',0,,1.0,1000.0"
     })
     public void testGetPrimeAnnuelleManagerPerformanceBasePleinTemps(
             String matricule,
