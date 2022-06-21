@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Entity
 public class Employe {
@@ -59,20 +60,51 @@ public class Employe {
         return getNbRtt(LocalDate.now());
     }
 
-    public Integer getNbRtt(LocalDate d){
-        
-        int i1 = d.isLeapYear() ? 366 : 365;int var = 104;
-        switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
-        case THURSDAY: if(d.isLeapYear()) var =  var + 1; break;
-        case FRIDAY:
-        if(d.isLeapYear()) var =  var + 2;
-        else var =  var + 1;
-case SATURDAY:var = var + 1;
-                    break;
+    /**
+     * Fonction calculant le nombre de jours RTT à partir de l'année
+     * @param date
+     * @return le nombre de jours RTT en Integer 
+     */
+    public Integer getNbRtt(LocalDate date){
+
+        //Le nombre de jours total, varie si on est une année bisextille
+        int nbJoursTotal = date.isLeapYear() ? 366 : 365;
+        //nombre de semaines par an * 2 jours de weekend
+        int nbJoursWeekend = 104;
+        double nbJoursRTT;
+        DayOfWeek firstDayOfYear = LocalDate.of(date.getYear(),1,1).getDayOfWeek();
+
+        //nbJoursWeekend ne compte pas la 1ère semaine de l'année,
+        //Si le 1er jour de l'année est un jour de week-end, on doit le compter. Si l'année est bisextille et le 1er jour de l'année est jeudi ou vendredi, on
+        switch (firstDayOfYear){
+            case THURSDAY:
+                if(date.isLeapYear()) {
+                    nbJoursWeekend++;
+                }
+                break;
+
+            case FRIDAY:
+                if(date.isLeapYear()) {
+                    nbJoursWeekend += 2;
+                }
+                else {
+                    nbJoursWeekend++;
+                }
+                break;
+
+            case SATURDAY:
+                nbJoursWeekend++;
+                break;
         }
-        int monInt = (int) Entreprise.joursFeries(d).stream().filter(localDate ->
-                localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue()).count();
-        return (int) Math.ceil((i1 - Entreprise.NB_JOURS_MAX_FORFAIT - var - Entreprise.NB_CONGES_BASE - monInt) * tempsPartiel);
+
+        //On parcourt les jours fériés, pour récupérer tout les jours qui ne sont pas samedi ou dimanche
+        Stream<LocalDate> stream = Entreprise.joursFeries(date).stream().filter(localDate ->
+                localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue());
+        int nbJoursFeriesHorsWeekend = (int) stream.count();
+
+        nbJoursRTT = (nbJoursTotal - Entreprise.NB_JOURS_MAX_FORFAIT - nbJoursWeekend - Entreprise.NB_CONGES_BASE - nbJoursFeriesHorsWeekend) * tempsPartiel;
+        int resultat = (int) Math.ceil(nbJoursRTT);
+        return resultat;
     }
 
     /**
