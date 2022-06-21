@@ -7,39 +7,77 @@ import com.ipiecoles.java.java350.model.NiveauEtude;
 import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import javax.persistence.EntityExistsException;
+import static org.mockito.Mockito.*;
 import java.time.LocalDate;
-
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class EmployeServiceTest {
-
-    @Autowired
-    EmployeService employeService;
-
-    @Autowired
-    EmployeRepository employeRepository;
-
+    @InjectMocks
+    private EmployeService employeService;
+    @Mock
+    private EmployeRepository employeRepository;
+/*    @Mock
+    private DummyService dummyService;
     @Test
-    public void testEmbauche1Employe() throws EmployeException {
+    public void testDummy(){
         //Given
-        //Employe employe = new Employe("Smith","Marc","M1501", LocalDate.now(),2000d,2,12d);
-        //employeRepository.save(employe);
-
+        when(dummyService.doSomething()).thenReturn(5);
         //When
-        employeService.embaucheEmploye("Smith","Tim",Poste.COMMERCIAL, NiveauEtude.MASTER,1.0);
-        String matricule = employeRepository.findLastMatricule();
-        Employe employe = employeRepository.findByMatricule("C" +matricule);
-
+        Boolean b = employeService.executeDummy();
         //Then
-        Assertions.assertThat(employe.getMatricule()).isEqualTo("C00001");
-        Assertions.assertThat(employe.getTempsPartiel()).isEqualTo(1.0);
-        Assertions.assertThat(employe.getNom()).isEqualTo("Smith");
-        Assertions.assertThat(employe.getPrenom()).isEqualTo("Tim");
+        Assertions.assertThat(b).isTrue();
+    }*/
+    @Test
+    public void testEmbaucheEmployeLimiteMatricule(){
+        //Given
+        when(employeRepository.findLastMatricule()).thenReturn("99999");
+        //When
+        Throwable t = Assertions.catchThrowable(() -> {
+            employeService.embaucheEmploye("Doe", "John", Poste.COMMERCIAL, NiveauEtude.MASTER, 1.0);
+        });
+        //Then
+        Assertions.assertThat(t).isInstanceOf(EmployeException.class)
+                .hasMessage("Limite des 100000 matricules atteinte !");
+    }
+    @Test
+    public void testEmbaucheEmployeEmployeExist(){
+        //Given
+        when(employeRepository.findLastMatricule()).thenReturn(null);
+        when(employeRepository.findByMatricule("C00001")).thenReturn(new Employe());
+        //When
+        Throwable t = Assertions.catchThrowable(() -> {
+            employeService.embaucheEmploye("Doe", "John", Poste.COMMERCIAL, NiveauEtude.MASTER, 1.0);
+        });
+        //Then
+        Assertions.assertThat(t).isInstanceOf(EntityExistsException.class)
+                .hasMessage("L'employé de matricule C00001 existe déjà en BDD");
+    }
+    @Test
+    public void testEmbaucheEmploye() throws EmployeException {
+        //Given
+        Mockito.when(employeRepository.findLastMatricule()).thenReturn(null);
+        Mockito.when(employeRepository.findByMatricule("C00001")).thenReturn(null);
+        Mockito.when(employeRepository.save(Mockito.any(Employe.class))).thenAnswer((AdditionalAnswers.returnsFirstArg()));
+        //When
+        employeService.embaucheEmploye("Doe", "John", Poste.COMMERCIAL, NiveauEtude.MASTER, 1.0);
+        //Then
+//        Employe employe = employeRepository.findByMatricule("C00001");
+        ArgumentCaptor<Employe> employeArgumentCaptor = ArgumentCaptor.forClass(Employe.class);
+        Mockito.verify(employeRepository).save(employeArgumentCaptor.capture());
+        Employe employe = employeArgumentCaptor.getValue();
+        Assertions.assertThat(employe.getNom()).isEqualTo("Doe");
+        Assertions.assertThat(employe.getPrenom()).isEqualTo("John");
         Assertions.assertThat(employe.getDateEmbauche()).isEqualTo(LocalDate.now());
         Assertions.assertThat(employe.getPerformance()).isEqualTo(Entreprise.PERFORMANCE_BASE);
         Assertions.assertThat(employe.getSalaire()).isEqualTo(2129.71);
+        Assertions.assertThat(employe.getTempsPartiel()).isEqualTo(1);
     }
 }

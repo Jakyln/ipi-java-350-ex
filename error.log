@@ -1,0 +1,8 @@
+21-06-2022 11:45:17.124 c.i.j.java350.service.EmployeService.embaucheEmploye - Limite des 100000 matricules atteinte 
+21-06-2022 11:45:17.140 c.i.j.java350.service.EmployeService.embaucheEmploye - Matricule calculé :  C00001 
+21-06-2022 11:45:31.196 c.i.j.java350.service.EmployeService.embaucheEmploye - Limite des 100000 matricules atteinte 
+21-06-2022 11:45:31.229 c.i.j.java350.service.EmployeService.embaucheEmploye - Matricule calculé :  C00001 
+21-06-2022 12:01:31.591 c.i.j.java350.service.EmployeService.embaucheEmploye - Limite des 100000 matricules atteinte 
+21-06-2022 12:01:31.605 c.i.j.java350.service.EmployeService.embaucheEmploye - Matricule calculé :  C00001 
+21-06-2022 12:02:48.179 c.i.j.java350.service.EmployeService.embaucheEmploye - Limite des 100000 matricules atteinte 
+21-06-2022 12:02:48.190 c.i.j.java350.service.EmployeService.embaucheEmploye - Matricule calculé :  C00001 
