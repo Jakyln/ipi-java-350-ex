@@ -63,7 +63,8 @@ public class Employe {
     }
 
     public Integer getNbRtt(LocalDate d){
-        int i1 = d.isLeapYear() ? 365 : 366;int var = 104;
+        
+        int i1 = d.isLeapYear() ? 366 : 365;int var = 104;
         switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
         case THURSDAY: if(d.isLeapYear()) var =  var + 1; break;
         case FRIDAY:
@@ -114,8 +115,8 @@ case SATURDAY:var = var + 1;
 
 
 
-    //Augmenter salaire
-    //public void augmenterSalaire(double pourcentage){}
+    Augmenter salaire
+    public void augmenterSalaire(double pourcentage){}
 
     public Long getId() {
         return id;
