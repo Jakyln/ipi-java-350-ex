@@ -11,6 +11,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +81,22 @@ public class EmployeServiceTest {
         Assertions.assertThat(employe.getPerformance()).isEqualTo(Entreprise.PERFORMANCE_BASE);
         Assertions.assertThat(employe.getSalaire()).isEqualTo(2129.71);
         Assertions.assertThat(employe.getTempsPartiel()).isEqualTo(1);
+    }
+
+    @Test
+    public void testOneCalculPerformanceCommercial(){
+        //Given
+        //When
+        //Then
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "'M12346',0,1,1.0,1700.0",
+    })
+    public void testMultipleCalculPerformanceCommercial(){
+        //Given
+        //When
+        //Then
     }
 }

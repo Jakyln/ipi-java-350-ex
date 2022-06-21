@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class EmployeTest {
@@ -97,16 +98,42 @@ public class EmployeTest {
         Assertions.assertThat(employe.getSalaire()).isEqualTo(5415.48);
     }
 
+    //Excercice 2
     @Test
-    public void testGetNbRtt(){
+    public void testOneDateGetNbRtt(){
         //Given
         Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
         //When
         LocalDate date = LocalDate.of(2022,2,15);
-        int nbRtt = employe.getNbRtt(date); //15/08/2023,
+        int nbRtt = employe.getNbRtt(date);
         //Then
-        //Marche pas, c'est 10 ,revoir calcul
         Assertions.assertThat(nbRtt).isEqualTo(10);
 
     }
+ /*
+ *          "2019,false,2,10",
+            "2021,false,5,7",
+            "2022,false,6,7",
+            "2023,true,4,7",*/
+    @ParameterizedTest
+    @CsvSource({
+            "2019,0.5,4",
+            "2021,1,10",
+            "2022,0.5,5",
+            "2032,1,11",
+    })
+    public void testMultipleDateGetNbRtt(
+            int year,
+            double tempsPartiel,
+            int nbJoursRtt
+    ){
+        //Given
+        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(year,4,20),2210.40,2,tempsPartiel);
+        //When
+        LocalDate date = LocalDate.of(year,2,15);
+        int nbRtt = employe.getNbRtt(date);
+        //Then
+        Assertions.assertThat(nbRtt).isEqualTo(nbJoursRtt);
+    }
+
 }
