@@ -84,4 +84,15 @@ public class EmployeTest {
         //Then
         Assertions.assertThat(primeObtenue).isEqualTo(prime);
     }
+
+    @Test
+    public void testAugmenterSalaire(){
+        //Given
+        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
+        //When
+        double coefficientAugmentation = 2.45;
+        employe.augmenterSalaire(coefficientAugmentation);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(5415.48);
+    }
 }

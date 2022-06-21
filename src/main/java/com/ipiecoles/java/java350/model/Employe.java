@@ -1,9 +1,6 @@
 package com.ipiecoles.java.java350.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -115,8 +112,15 @@ case SATURDAY:var = var + 1;
 
 
 
-    Augmenter salaire
-    public void augmenterSalaire(double pourcentage){}
+    //Augmenter salaire
+    public void augmenterSalaire(double pourcentage){
+        if(this.salaire != null){
+            this.salaire = Math.floor(this.salaire * pourcentage * 100) / 100;
+        }
+        else{
+            throw new EntityNotFoundException();
+        }
+    }
 
     public Long getId() {
         return id;
