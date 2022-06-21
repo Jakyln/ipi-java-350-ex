@@ -85,6 +85,7 @@ public class EmployeTest {
         Assertions.assertThat(primeObtenue).isEqualTo(prime);
     }
 
+    //Excercice 1
     @Test
     public void testAugmenterSalaire(){
         //Given
@@ -94,5 +95,18 @@ public class EmployeTest {
         employe.augmenterSalaire(coefficientAugmentation);
         //Then
         Assertions.assertThat(employe.getSalaire()).isEqualTo(5415.48);
+    }
+
+    @Test
+    public void testGetNbRtt(){
+        //Given
+        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
+        //When
+        LocalDate date = LocalDate.of(2022,2,15);
+        int nbRtt = employe.getNbRtt(date); //15/08/2023,
+        //Then
+        //Marche pas, c'est 10 ,revoir calcul
+        Assertions.assertThat(nbRtt).isEqualTo(10);
+
     }
 }
