@@ -61,7 +61,7 @@ public class Employe {
     }
 
     /**
-     * Fonction calculant le nombre de jours RTT à partir de la date
+     * Fonction calculant le nombre de jours RTT à partir de l'année de la date
      * @param date,
      * @return le nombre de jours RTT en Integer
      */
@@ -73,8 +73,6 @@ public class Employe {
         double nbJoursRTT;
         DayOfWeek firstDayOfYear = LocalDate.of(date.getYear(),1,1).getDayOfWeek();
 
-        //nbJoursWeekend ne compte pas la 1ère semaine de l'année,
-        //Si le 1er jour de l'année est un jour de week-end, on doit le compter. Si l'année est bisextille et le 1er jour de l'année est jeudi ou vendredi, on
         switch (firstDayOfYear){
             case THURSDAY:
                 if(date.isLeapYear()) {
@@ -94,53 +92,8 @@ public class Employe {
             case SATURDAY:
                 nbJoursWeekend++;
                 break;
-        }
 
-        //On parcourt les jours fériés, pour récupérer tout les jours qui ne sont pas samedi ou dimanche
-        Stream<LocalDate> stream = Entreprise.joursFeries(date).stream().filter(localDate ->
-                localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue());
-        int nbJoursFeriesHorsWeekend = (int) stream.count();
-
-        nbJoursRTT = (nbJoursTotal - Entreprise.NB_JOURS_MAX_FORFAIT - nbJoursWeekend - Entreprise.NB_CONGES_BASE - nbJoursFeriesHorsWeekend) * tempsPartiel;
-        int resultat = (int) Math.ceil(nbJoursRTT);
-        return resultat;
-    }
-
-
-    /**
-     * Fonction calculant le nombre de jours RTT à partir de l'année
-     * @param date
-     * @return le nombre de jours RTT en Integer
-     */
-    public Integer getNbRtt2(LocalDate date){
-
-        //Le nombre de jours total, varie si on est une année bisextille
-        int nbJoursTotal = date.isLeapYear() ? 366 : 365;
-        //nombre de semaines par an * 2 jours de weekend
-        int nbJoursWeekend = 104;
-        double nbJoursRTT;
-        DayOfWeek firstDayOfYear = LocalDate.of(date.getYear(),1,1).getDayOfWeek();
-
-        //nbJoursWeekend ne compte pas la 1ère semaine de l'année,
-        //Si le 1er jour de l'année est un jour de week-end, on doit le compter. Si l'année est bisextille et le 1er jour de l'année est jeudi ou vendredi, on
-        switch (firstDayOfYear){
-            case THURSDAY:
-                if(date.isLeapYear()) {
-                    nbJoursWeekend++;
-                }
-                break;
-
-            case FRIDAY:
-                if(date.isLeapYear()) {
-                    nbJoursWeekend += 2;
-                }
-                else {
-                    nbJoursWeekend++;
-                }
-                break;
-
-            case SATURDAY:
-                nbJoursWeekend++;
+            default:
                 break;
         }
 
@@ -150,9 +103,9 @@ public class Employe {
         int nbJoursFeriesHorsWeekend = (int) stream.count();
 
         nbJoursRTT = (nbJoursTotal - Entreprise.NB_JOURS_MAX_FORFAIT - nbJoursWeekend - Entreprise.NB_CONGES_BASE - nbJoursFeriesHorsWeekend) * tempsPartiel;
-        int resultat = (int) Math.ceil(nbJoursRTT);
-        return resultat;
+        return (int) Math.ceil(nbJoursRTT);
     }
+
 
     /**
      * Calcul de la prime annuelle selon la règle :

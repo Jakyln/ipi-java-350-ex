@@ -54,7 +54,7 @@ public class EmployeServiceIntegrationTest {
         Double performance = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
 
         //Then
-        Assertions.assertThat(performance).isEqualTo(2);
+        Assertions.assertThat(performance).isEqualTo(1.5);
     }
 
     @Test
