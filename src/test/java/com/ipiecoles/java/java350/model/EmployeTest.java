@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import javax.persistence.EntityExistsException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
@@ -100,25 +101,31 @@ public class EmployeTest {
     }
 
     @Test
-    public void testNullAugmenterSalaire() throws EmployeException {
+    public void testNullAugmenterSalaire() {
         //Given
         Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),null,2,1d);
         //When
         double coefficientAugmentation = 0.9;
-        employe.augmenterSalaire(coefficientAugmentation);
+        Throwable t = Assertions.catchThrowable(() -> {
+            employe.augmenterSalaire(coefficientAugmentation);
+        });
         //Then
-        Assertions.assertThat(employe.getSalaire()).isEqualTo(4199.76);
+        Assertions.assertThat(t).isInstanceOf(EmployeException.class)
+                .hasMessage("Le salaire ne doit pas être nul !");
     }
 
     @Test
-    public void testCoeffTropHautAugmenterSalaire() throws EmployeException {
+    public void testCoeffTropHautAugmenterSalaire() {
         //Given
         Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
         //When
         double coefficientAugmentation = 3.9;
-        employe.augmenterSalaire(coefficientAugmentation);
+        Throwable t = Assertions.catchThrowable(() -> {
+            employe.augmenterSalaire(coefficientAugmentation);
+        });
         //Then
-        Assertions.assertThat(employe.getSalaire()).isEqualTo(4199.76);
+        Assertions.assertThat(t).isInstanceOf(EmployeException.class)
+                .hasMessage("Le pourcentage ne doit pas excéder 1 !");
     }
 
     //Excercice 2
