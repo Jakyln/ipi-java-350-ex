@@ -157,8 +157,7 @@ public class Employe {
             }
         }
         else{
-            System.out.println("Le salaire ne doit pas être nul !");
-            throw new EntityNotFoundException();
+            throw new EmployeException("Le salaire ne doit pas être nul !");
         }
     }
 

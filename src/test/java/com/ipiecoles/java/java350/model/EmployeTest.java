@@ -99,6 +99,28 @@ public class EmployeTest {
         Assertions.assertThat(employe.getSalaire()).isEqualTo(4199.76);
     }
 
+    @Test
+    public void testNullAugmenterSalaire() throws EmployeException {
+        //Given
+        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),null,2,1d);
+        //When
+        double coefficientAugmentation = 0.9;
+        employe.augmenterSalaire(coefficientAugmentation);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(4199.76);
+    }
+
+    @Test
+    public void testCoeffTropHautAugmenterSalaire() throws EmployeException {
+        //Given
+        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
+        //When
+        double coefficientAugmentation = 3.9;
+        employe.augmenterSalaire(coefficientAugmentation);
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(4199.76);
+    }
+
     //Excercice 2
     @ParameterizedTest
     @CsvSource({
