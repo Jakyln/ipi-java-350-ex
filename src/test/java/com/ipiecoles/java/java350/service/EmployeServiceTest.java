@@ -84,23 +84,6 @@ public class EmployeServiceTest {
     }
 
     @Test
-    public void testOneCalculPerformanceCommercial(){
-        //Given
-        //When
-        //Then
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "'M12346',0,1,1.0,1700.0",
-    })
-    public void testMultipleCalculPerformanceCommercial(){
-        //Given
-        //When
-        //Then
-    }
-
-    @Test
     public void testCalculPerformanceCommercial() throws EmployeException {
         //Given
         Employe employe = new Employe("Smith","Jack","C6501",LocalDate.of(2022,4,20),2210.40,13,1d);

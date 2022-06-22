@@ -1,5 +1,7 @@
 package com.ipiecoles.java.java350.model;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
+
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -145,11 +147,17 @@ public class Employe {
 
 
     //Augmenter salaire
-    public void augmenterSalaire(double pourcentage){
+    public void augmenterSalaire(double pourcentage) throws EmployeException {
         if(this.salaire != null){
-            this.salaire = Math.floor(this.salaire * pourcentage * 100) / 100;
+            if(pourcentage < 1d){
+                this.salaire += Math.floor(this.salaire * pourcentage * 100) / 100;
+            }
+            else{
+                throw new EmployeException("Le pourcentage ne doit pas excéder 1 !");
+            }
         }
         else{
+            System.out.println("Le salaire ne doit pas être nul !");
             throw new EntityNotFoundException();
         }
     }

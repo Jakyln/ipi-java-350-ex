@@ -1,5 +1,6 @@
 package com.ipiecoles.java.java350.model;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -88,14 +89,14 @@ public class EmployeTest {
 
     //Excercice 1
     @Test
-    public void testAugmenterSalaire(){
+    public void testAugmenterSalaire() throws EmployeException {
         //Given
         Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
         //When
-        double coefficientAugmentation = 2.45;
+        double coefficientAugmentation = 0.9;
         employe.augmenterSalaire(coefficientAugmentation);
         //Then
-        Assertions.assertThat(employe.getSalaire()).isEqualTo(5415.48);
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(4199.76);
     }
 
     //Excercice 2
