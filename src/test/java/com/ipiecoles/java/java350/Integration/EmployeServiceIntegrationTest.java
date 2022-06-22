@@ -43,4 +43,17 @@ public class EmployeServiceIntegrationTest {
         Assertions.assertThat(employe.getPerformance()).isEqualTo(Entreprise.PERFORMANCE_BASE);
         Assertions.assertThat(employe.getSalaire()).isEqualTo(2129.71);
     }
+
+    @Test
+    public void testAvgPerformanceWhereMatriculeStartsWith() {
+        //Given
+        Employe employe = new Employe("Smith","Marc","C1501", LocalDate.now(),2000d,2,12d);
+        employeRepository.save(employe);
+
+        //When
+        Double performance = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
+
+        //Then
+        Assertions.assertThat(performance).isEqualTo(2);
+    }
 }
