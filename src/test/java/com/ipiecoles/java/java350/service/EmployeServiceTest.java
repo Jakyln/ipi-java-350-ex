@@ -99,4 +99,27 @@ public class EmployeServiceTest {
         //When
         //Then
     }
+
+    @Test
+    public void testCalculPerformanceCommercial() throws EmployeException {
+        //Given
+        Employe employe = new Employe("Smith","Jack","C6501",LocalDate.of(2022,4,20),2210.40,13,1d);
+        when(employeRepository.findByMatricule("C6501")).thenReturn(employe);
+        when(employeRepository.avgPerformanceWhereMatriculeStartsWith("C")).thenReturn(10d);
+        when(employeRepository.save(Mockito.any(Employe.class))).thenAnswer((AdditionalAnswers.returnsFirstArg()));
+
+        //When
+        employeService.calculPerformanceCommercial("C6501", 130L, 160L);
+        //Throwable t = Assertions.catchThrowable(() -> {});
+        //Then
+
+        ArgumentCaptor<Employe> employeArgumentCaptor = ArgumentCaptor.forClass(Employe.class);
+        Mockito.verify(employeRepository).save(employeArgumentCaptor.capture());
+        Employe employeSaved = employeArgumentCaptor.getValue();
+        Assertions.assertThat(employe.getPerformance()).isEqualTo(12);
+
+/*        Assertions.assertThat(t).isInstanceOf(EmployeException.class)
+                .hasMessage("Limite des 100000 matricules atteinte !");*/
+    }
+
 }
