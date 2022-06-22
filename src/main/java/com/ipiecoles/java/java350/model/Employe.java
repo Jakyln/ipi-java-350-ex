@@ -76,12 +76,6 @@ public class Employe {
         DayOfWeek firstDayOfYear = LocalDate.of(date.getYear(),1,1).getDayOfWeek();
 
         switch (firstDayOfYear){
-            case THURSDAY:
-                if(date.isLeapYear()) {
-                    nbJoursWeekend++;
-                }
-                break;
-
             case FRIDAY:
                 if(date.isLeapYear()) {
                     nbJoursWeekend += 2;

@@ -51,6 +51,8 @@ public final class Entreprise {
         datePaque.put(2038, LocalDate.of(2038, 4, 25));
         datePaque.put(2039, LocalDate.of(2039, 4, 10));
         datePaque.put(2040, LocalDate.of(2040, 4, 1));
+        datePaque.put(2041, LocalDate.of(2041, 4, 21));
+        datePaque.put(2042, LocalDate.of(2042, 4, 6));
     }
 
     public static final String MATRICULE_INITIAL = "00000";
