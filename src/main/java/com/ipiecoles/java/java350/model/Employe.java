@@ -77,16 +77,16 @@ public class Employe {
 
         switch (firstDayOfYear){
             case FRIDAY:
+                nbJoursWeekend++;
+                break;
+
+            case SATURDAY:
                 if(date.isLeapYear()) {
                     nbJoursWeekend += 2;
                 }
                 else {
                     nbJoursWeekend++;
                 }
-                break;
-
-            case SATURDAY:
-                nbJoursWeekend++;
                 break;
 
             default:
