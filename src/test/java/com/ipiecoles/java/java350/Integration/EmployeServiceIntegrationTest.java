@@ -56,4 +56,16 @@ public class EmployeServiceIntegrationTest {
         //Then
         Assertions.assertThat(performance).isEqualTo(2);
     }
+
+    @Test
+    public void testOneDateGetNbRtt(){
+        //Given
+        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
+        //When
+        LocalDate date = LocalDate.of(2022,2,15);
+        int nbRtt = employe.getNbRtt(date);
+        //Then
+        Assertions.assertThat(nbRtt).isEqualTo(10);
+
+    }
 }

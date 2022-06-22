@@ -99,22 +99,6 @@ public class EmployeTest {
     }
 
     //Excercice 2
-    @Test
-    public void testOneDateGetNbRtt(){
-        //Given
-        Employe employe = new Employe("Smith","Jack","M6501",LocalDate.of(2022,4,20),2210.40,2,1d);
-        //When
-        LocalDate date = LocalDate.of(2022,2,15);
-        int nbRtt = employe.getNbRtt(date);
-        //Then
-        Assertions.assertThat(nbRtt).isEqualTo(10);
-
-    }
- /*
- *          "2019,false,2,10",
-            "2021,false,5,7",
-            "2022,false,6,7",
-            "2023,true,4,7",*/
     @ParameterizedTest
     @CsvSource({
             "2019,0.5,4",
